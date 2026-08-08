@@ -1,8 +1,8 @@
-OUTPUT_FORMAT(elf64-x86-64)
-OUTPUT_ARCH(i386:x86-64)
+OUTPUT_FORMAT(elf64-littleaarch64)
+OUTPUT_ARCH(aarch64)
 ENTRY(kmain)
 
-PHDRS 
+PHDRS
 {
     limine_requests PT_LOAD;
     text   PT_LOAD FLAGS((1 << 0) | (1 << 2));
@@ -10,7 +10,7 @@ PHDRS
     data   PT_LOAD FLAGS((1 << 1) | (1 << 2));
 }
 
-SECTIONS 
+SECTIONS
 {
     . = 0xFFFFFFFF80000000;
 
