@@ -1,6 +1,6 @@
 OUTPUT_FORMAT(elf64-littleriscv)
 OUTPUT_ARCH(riscv)
-ENTRY(kmain)
+ENTRY(_starts)
 
 PHDRS
 {

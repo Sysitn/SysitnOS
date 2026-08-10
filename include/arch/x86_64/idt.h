@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 
 struct __attribute__((packed)) idt_entry {

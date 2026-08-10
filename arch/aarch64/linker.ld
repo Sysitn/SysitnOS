@@ -1,49 +1,30 @@
 OUTPUT_FORMAT(elf64-littleaarch64)
 OUTPUT_ARCH(aarch64)
-ENTRY(kmain)
-
-PHDRS
-{
-    limine_requests PT_LOAD;
-    text   PT_LOAD FLAGS((1 << 0) | (1 << 2));
-    rodata PT_LOAD FLAGS((1 << 2));
-    data   PT_LOAD FLAGS((1 << 1) | (1 << 2));
-}
+ENTRY(_start)
 
 SECTIONS
 {
-    . = 0xFFFFFFFF80000000;
+    . = 0x40000000;
 
-    .limine_requests : {
-        KEEP(*(.limine_requests_start))
-        KEEP(*(.limine_requests))
-        KEEP(*(.limine_requests_end))
-    } : limine_requests
-
-    . += CONSTANT(MAXPAGESIZE);
-
-    .text : {
+    .text : ALIGN(4K) {
+        *(.text.boot)
         *(.text .text.*)
-    } : text
+    }
 
-    . += CONSTANT(MAXPAGESIZE);
-
-    .rodata : {
+    .rodata : ALIGN(4K) {
         *(.rodata .rodata.*)
-    } : rodata
+    }
 
-    . += CONSTANT(MAXPAGESIZE);
-
-    .data : {
+    .data : ALIGN(4K) {
         *(.data .data.*)
-    } : data
+    }
 
-    . += CONSTANT(MAXPAGESIZE);
-
-    .bss : {
+    .bss : ALIGN(4K) {
+        __bss_start = .;
         *(.bss .bss.*)
         *(COMMON)
-    } : data
+        __bss_end = .;
+    }
 
     /DISCARD/ : {
         *(.eh_frame)
