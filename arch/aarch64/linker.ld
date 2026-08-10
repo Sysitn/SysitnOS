@@ -6,25 +6,34 @@ SECTIONS
 {
     . = 0x40000000;
 
-    .text : ALIGN(4K) {
+    .text : {
         *(.text.boot)
         *(.text .text.*)
     }
 
-    .rodata : ALIGN(4K) {
+    . = ALIGN(4096);
+
+    .rodata : {
         *(.rodata .rodata.*)
     }
 
-    .data : ALIGN(4K) {
+    . = ALIGN(4096);
+
+    .data : {
         *(.data .data.*)
     }
 
-    .bss : ALIGN(4K) {
+    . = ALIGN(4096);
+
+    .bss : {
         __bss_start = .;
         *(.bss .bss.*)
         *(COMMON)
         __bss_end = .;
     }
+
+    . = ALIGN(4096);
+    __kernel_end = .;
 
     /DISCARD/ : {
         *(.eh_frame)

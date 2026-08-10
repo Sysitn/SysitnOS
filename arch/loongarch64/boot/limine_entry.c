@@ -51,5 +51,7 @@ void _start(void) {
         boot_info.hhdm_offset = 0;
     }
 
+    kmain(&boot_info);
+
     __asm__ volatile ("idle 0");
 }

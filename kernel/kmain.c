@@ -4,8 +4,9 @@
 #include <boot/boot_info.h>
 
 void kmain(struct sysitn_boot_info *boot_info) {
-
-    
+    if (boot_info->framebuffer != NULL) {
+        
+    }
 
     while (1) {
         cpu_halt();
