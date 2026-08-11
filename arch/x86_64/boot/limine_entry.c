@@ -22,6 +22,12 @@ static volatile struct limine_hhdm_request hhdm_request = {
     .revision = 0
 };
 
+LIMINE_REQUEST
+static volatile struct limine_memmap_request memmap_request = {
+    .id = LIMINE_MEMMAP_REQUEST_ID,
+    .revision = 0
+};
+
 __attribute__((used, section(".limine_requests_end")))
 static volatile uint64_t limine_end_marker[] = LIMINE_REQUESTS_END_MARKER;
 
