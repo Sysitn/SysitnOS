@@ -15,6 +15,10 @@ static inline void outb(uint16_t port, uint8_t val) {
     __asm__ volatile ("out %1, %0" : : "a"(val), "Nd"(port));
 }
 
+void uart_init() {
+    
+}
+
 void uart_write(const char *str, size_t len) {
     for (size_t i = 0; i < len; i++) {
         while ((inb(COM1_BASE + 5)& 0x20) == 0);

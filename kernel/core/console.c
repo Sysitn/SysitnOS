@@ -24,6 +24,7 @@ void console_init(struct sysitn_framebuffer *framebuffer) {
         console_register(uart_write);
     }
     if (framebuffer != NULL) {
+        framebuffer_init(framebuffer);
         console_register(framebuffer_write);
     }
 }
