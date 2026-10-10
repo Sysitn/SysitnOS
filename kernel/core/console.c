@@ -32,8 +32,17 @@ static inline void sink_putc(struct sink *s, char c) {
     }
 }
 
-static void print_num(struct sink *s, uint64_t uval, int base) {
-    
+static void print_num(struct sink *s, int number) {
+    const char *numbers = "0123456789";
+    char temp[32];
+    int len = 0;
+    while (number > 0) {
+        temp[len++] = numbers[number % 10];
+        number /= 10;
+    }
+    for (int i = len - 1; i >= 0; i--) {
+        sink_putc(s, temp[i]);
+    }
 }
 
 static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) {
@@ -73,7 +82,8 @@ static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) 
                 break;
             }
             case 'd': {
-                sink_putc(&s, '4');
+                int i = va_arg(args, int);
+                print_num(&s, i);
                 break;
             }
             case '%': {
