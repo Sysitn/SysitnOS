@@ -1,6 +1,7 @@
 #include <drivers/video/framebuffer_console.h>
 #include <boot/boot_info.h>
 #include <fonts/font8x16.h>
+#include <core/console.h>
 #include <stdint.h>
 
 static uint32_t cursor_x = 0;
@@ -30,7 +31,7 @@ void framebuffer_putc(const char c) {
         return;
     }
 
-    if (cursor_y + 8 > height) {
+    if (cursor_y + 16 > height) {
         return;
     }
 

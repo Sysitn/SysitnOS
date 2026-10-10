@@ -19,16 +19,6 @@ struct sink {
 static console_write_fun consoles[MAX_CONSOLES];
 static int consoles_count = 0;
 
-void console_init(struct sysitn_framebuffer *framebuffer) {
-    if (uart_available()) {
-        console_register(uart_write);
-    }
-    if (framebuffer != NULL) {
-        framebuffer_init(framebuffer);
-        console_register(framebuffer_write);
-    }
-}
-
 void console_register(console_write_fun fun) {
     if (consoles_count < MAX_CONSOLES) {
         consoles[consoles_count++] = fun;
@@ -43,7 +33,7 @@ static inline void sink_putc(struct sink *s, char c) {
 }
 
 static void print_num(struct sink *s, uint64_t uval, int base) {
-
+    
 }
 
 static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) {
@@ -83,6 +73,7 @@ static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) 
                 break;
             }
             case 'd': {
+                sink_putc(&s, '4');
                 break;
             }
             case '%': {
@@ -114,4 +105,17 @@ int kprintf(const char *fmt, ...) {
     }
 
     return len;
+}
+
+void console_init(struct sysitn_framebuffer *framebuffer) {
+    if (uart_available()) {
+        uart_init();
+        console_register(uart_write);
+        kprintf("[ OK ] UART Console Initialized\n");
+    }
+    if (framebuffer != NULL) {
+        framebuffer_init(framebuffer);
+        console_register(framebuffer_write);
+        kprintf("[ OK ] Graphic Console Initialized\n");
+    }
 }
