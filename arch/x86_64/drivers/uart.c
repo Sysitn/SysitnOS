@@ -6,7 +6,7 @@
 
 #define COM1 0x3F8
 
-void uart_init() {
+void uart_init(void) {
     outb(COM1 + 1, 0x00);
     outb(COM1 + 3, 0x80);    
     outb(COM1 + 0, 0x01);    
