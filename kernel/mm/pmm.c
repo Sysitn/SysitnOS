@@ -25,10 +25,12 @@ static inline bool bit_test(uint64_t i) {
 }
 
 void pmm_init(const struct sysitn_memmap *memmap, uintptr_t hhdm_offset) {
-    if (!memmap) {
+    if (!memmap || !hhdm_offset) {
         kprintf(KPRINTF_ERROR "Physical Memory Manager Not Started\n");
         return;
     }
+
+    kprintf("Count: %d\n", memmap->count_entries);
 
     phys_addr_t max_addr = 0;
 

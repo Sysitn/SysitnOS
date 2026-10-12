@@ -71,8 +71,8 @@ void _start(void) {
                 break;
             }
 
-            memmap.memmap_entries[i].base = e->base;
-            memmap.memmap_entries[i].len = e->length;
+            memmap.memmap_entries[n].base = e->base;
+            memmap.memmap_entries[n].len = e->length;
             n++;
         }
         memmap.count_entries = n;
