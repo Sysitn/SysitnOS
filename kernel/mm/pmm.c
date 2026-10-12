@@ -30,8 +30,6 @@ void pmm_init(const struct sysitn_memmap *memmap, uintptr_t hhdm_offset) {
         return;
     }
 
-    kprintf("Count: %d\n", memmap->count_entries);
-
     phys_addr_t max_addr = 0;
 
     for (size_t i = 0; i < memmap->count_entries; i++) {
