@@ -33,6 +33,7 @@ static volatile uint64_t limine_end_marker[] = LIMINE_REQUESTS_END_MARKER;
 
 static struct sysitn_boot_info boot_info;
 static struct sysitn_framebuffer framebuffer;
+static struct sysitn_memmap memmap;
 
 void _start(void) {
     if (limine_base_revision[2] != 0) {
@@ -55,6 +56,13 @@ void _start(void) {
         boot_info.hhdm_offset = hhdm_request.response->offset;
     } else {
         boot_info.hhdm_offset = 0;
+    }
+
+    if (memmap_request.response != NULL) {
+        memmap.count_entries = memmap_request.response->entry_count;
+        
+    } else {
+        boot_info.memmap = NULL;
     }
 
     kmain(&boot_info);

@@ -121,11 +121,11 @@ void console_init(struct sysitn_framebuffer *framebuffer) {
     if (uart_available()) {
         uart_init();
         console_register(uart_write);
-        kprintf("[ OK ] UART Console Initialized\n");
+        kprintf(KPRINTF_OK "UART Console Initialized\n");
     }
     if (framebuffer != NULL) {
         framebuffer_init(framebuffer);
         console_register(framebuffer_write);
-        kprintf("[ OK ] Graphic Console Initialized\n");
+        kprintf(KPRINTF_OK "Graphic Console Initialized\n");
     }
 }

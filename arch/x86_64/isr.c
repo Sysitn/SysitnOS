@@ -11,11 +11,11 @@ const char *exception_messages[] = {
 
 void isr_handler(registers_t *regs) {
     if (regs->int_no < 32) {
-        kprintf("\n[CPU EXCEPTION]: ");
+        kprintf("\n[ CPU EXCEPTION ]: ");
         if (regs->int_no < 16) {
             kprintf(exception_messages[regs->int_no]);
         }
-        kprintf("\nKernel panic!");
+        kprintf("\nKernel panic!\n");
         
         for(;;) { 
             __asm__ volatile("cli; hlt");

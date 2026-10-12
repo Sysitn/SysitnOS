@@ -8,7 +8,7 @@ void cpu_init(void) {
     pic_init();
     idt_init();
     __asm__ volatile ("sti");
-    kprintf("[ INFO ] CPU Interrupt started\n");
+    kprintf(KPRINTF_OK "CPU Interrupt started\n");
 }
 
 void cpu_halt(void) {

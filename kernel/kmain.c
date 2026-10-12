@@ -6,9 +6,7 @@
 void kmain(struct sysitn_boot_info *boot_info) {
     console_init(boot_info->framebuffer);
     cpu_init();
-    pmm_init();
-
-    kprintf("Count PMM free pages: %d\n", (int) pmm_count_free_pages());
+    // pmm_init(boot_info->memmap, boot_info->hhdm_offset);
 
     while (1) {
         cpu_halt();
