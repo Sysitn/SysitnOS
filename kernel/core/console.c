@@ -32,7 +32,7 @@ static inline void sink_putc(struct sink *s, char c) {
     }
 }
 
-static void print_num(struct sink *s, int number, unsigned int base) {
+static void print_num(struct sink *s, uint64_t number, unsigned int base) {
     const char *numbers = "0123456789abcdef";
     char temp[64];
     int len = 0;
@@ -87,6 +87,13 @@ static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) 
             case 'd': {
                 int i = va_arg(args, int);
                 print_num(&s, i, 10);
+                break;
+            }
+            case 'p': {
+                void *p = va_arg(args, void *);
+                sink_putc(&s, '0');
+                sink_putc(&s, 'x');
+                print_num(&s, (uint64_t) p, 16);
                 break;
             }
             case '%': {
