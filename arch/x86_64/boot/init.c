@@ -58,7 +58,7 @@ void _start(void) {
         boot_info.hhdm_offset = 0;
     }
 
-    if (memmap_request.response != NULL) {
+    if (memmap_request.response != NULL || memmap_request.response->entry_count > 0) {
         uint64_t n = 0;
         for (uint64_t i = 0; i < memmap_request.response->entry_count; i++) {
             struct limine_memmap_entry *e = memmap_request.response->entries[i];

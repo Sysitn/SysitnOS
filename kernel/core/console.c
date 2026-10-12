@@ -89,6 +89,13 @@ static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) 
                 print_num(&s, i, 10);
                 break;
             }
+            case 'x': {
+                int x = va_arg(args, int);
+                sink_putc(&s, '0');
+                sink_putc(&s, 'x');
+                print_num(&s, x, 16);
+                break;
+            }
             case 'p': {
                 void *p = va_arg(args, void *);
                 sink_putc(&s, '0');
