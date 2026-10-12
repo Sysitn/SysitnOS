@@ -32,13 +32,16 @@ static inline void sink_putc(struct sink *s, char c) {
     }
 }
 
-static void print_num(struct sink *s, int number) {
-    const char *numbers = "0123456789";
-    char temp[32];
+static void print_num(struct sink *s, int number, unsigned int base) {
+    const char *numbers = "0123456789abcdef";
+    char temp[64];
     int len = 0;
+    if (number == 0) {
+        temp[len++] = '0';
+    }
     while (number > 0) {
-        temp[len++] = numbers[number % 10];
-        number /= 10;
+        temp[len++] = numbers[number % base];
+        number /= base;
     }
     for (int i = len - 1; i >= 0; i--) {
         sink_putc(s, temp[i]);
@@ -83,7 +86,7 @@ static int kvsnprintf(char *buffer, size_t size, const char *fmt, va_list args) 
             }
             case 'd': {
                 int i = va_arg(args, int);
-                print_num(&s, i);
+                print_num(&s, i, 10);
                 break;
             }
             case '%': {
@@ -118,14 +121,18 @@ int kprintf(const char *fmt, ...) {
 }
 
 void console_init(struct sysitn_framebuffer *framebuffer) {
-    if (uart_available()) {
-        uart_init();
-        console_register(uart_write);
-        kprintf(KPRINTF_OK "UART Console Initialized\n");
-    }
     if (framebuffer != NULL) {
         framebuffer_init(framebuffer);
         console_register(framebuffer_write);
         kprintf(KPRINTF_OK "Graphic Console Initialized\n");
+    } else {
+        kprintf(KPRINTF_WARNING "Graphic Console Not Started\n");
+    }
+    if (uart_available()) {
+        uart_init();
+        console_register(uart_write);
+        kprintf(KPRINTF_OK "UART Console Initialized\n");
+    } else {
+        kprintf(KPRINTF_WARNING "UART Console Not Started\n");
     }
 }

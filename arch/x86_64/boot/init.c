@@ -59,8 +59,24 @@ void _start(void) {
     }
 
     if (memmap_request.response != NULL) {
-        memmap.count_entries = memmap_request.response->entry_count;
-        
+        uint64_t n = 0;
+        for (uint64_t i = 0; i < memmap_request.response->entry_count; i++) {
+            struct limine_memmap_entry *e = memmap_request.response->entries[i];
+
+            if (e->type != LIMINE_MEMMAP_USABLE) {
+                continue;
+            }
+
+            if (n >= MAX_MEMMAP_ENTRIES) {
+                break;
+            }
+
+            memmap.memmap_entries[i].base = e->base;
+            memmap.memmap_entries[i].len = e->length;
+            n++;
+        }
+        memmap.count_entries = n;
+        boot_info.memmap = &memmap;
     } else {
         boot_info.memmap = NULL;
     }

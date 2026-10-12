@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define MAX_MEMMAP_ENTRIES 256
+
 typedef uint64_t phys_addr_t;
 
 struct sysitn_memmap_entry {
@@ -12,7 +14,7 @@ struct sysitn_memmap_entry {
 
 struct sysitn_memmap {
     uint64_t count_entries;
-    struct sysitn_memmap_entry **memmap_entries;
+    struct sysitn_memmap_entry memmap_entries[MAX_MEMMAP_ENTRIES];
 };
 
 struct sysitn_framebuffer {

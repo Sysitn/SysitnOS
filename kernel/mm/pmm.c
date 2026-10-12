@@ -24,13 +24,16 @@ static inline bool bit_test(uint64_t i) {
 }
 
 void pmm_init(const struct sysitn_memmap *memmap, uintptr_t hhdm_offset) {
+    if (!memmap) {
+        kprintf(KPRINTF_ERROR "Physical Memory Manager Not Started\n");
+        return;
+    }
+
     phys_addr_t max_addr = 0;
 
+    kprintf(KPRINTF_INFO "memmap regions: %d\n", (int) memmap->count_entries);
     for (size_t i = 0; i < memmap->count_entries; i++) {
-        phys_addr_t end = memmap->memmap_entries[i]->base + memmap->memmap_entries[i]->len;
-        if (max_addr < end) {
-            max_addr = end;
-        }
+        kprintf(KPRINTF_WARNING "\n");
     }
 
     total_pages = max_addr / PAGE_SIZE;
