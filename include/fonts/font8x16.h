@@ -1,4 +1,7 @@
 #pragma once
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-braces"
+
 #include <stdint.h>
 
 #define FONT_WIDTH  8
@@ -4612,3 +4615,5 @@ static const uint8_t font8x16[256][16] = {
 	0x00, /* 00000000 */
 	0x00, /* 00000000 */
 };
+
+#pragma GCC diagnostic pop
