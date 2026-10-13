@@ -37,7 +37,7 @@ ifeq ($(ARCH), loongarch64)
 	ARCH_LDFLAGS := -m elf64loongarch
 endif
 
-CFLAGS := -ffreestanding -Wall -Wextra -Wmissing-braces -fno-stack-protector -fno-stack-check -fno-lto -fno-pic -fno-pie -I$(INCLUDE_DIR) $(ARCH_CFLAGS)
+CFLAGS := -ffreestanding -Wall -Wextra -Wmissing-braces -MMD -MP -fno-stack-protector -fno-stack-check -fno-lto -fno-pic -fno-pie -I$(INCLUDE_DIR) $(ARCH_CFLAGS)
 LDFLAGS := $(ARCH_LDFLAGS) -T arch/$(ARCH)/linker.ld -nostdlib -static --no-dynamic-linker -z text -z max-page-size=0x1000
 
 SOURCES_C := $(shell find kernel/ arch/$(ARCH) drivers/ -name '*.c')
@@ -57,6 +57,8 @@ $(OBJ_DIR)/%.o: %.c
 $(OBJ_DIR)/%.o: %.S
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+-include $(OBJECTS:.o=.d)
 
 $(LIMINE_EXE):
 	@mkdir -p $(LIMINE_DIR)
@@ -114,4 +116,4 @@ debug:
 	@echo "OBJECTS: $(OBJECTS)"
 	@echo "BUILD_DIR: $(BUILD_DIR)"
 
-.PHONY: all clean debug run iso distclean
+.PHONY: all clean debug run iso bin distclean
