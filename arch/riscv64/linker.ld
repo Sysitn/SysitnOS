@@ -1,10 +1,9 @@
 OUTPUT_FORMAT(elf64-littleriscv)
 OUTPUT_ARCH(riscv)
-ENTRY(_starts)
+ENTRY(_start)
 
 PHDRS
 {
-    limine_requests PT_LOAD FLAGS((1 << 2));
     text   PT_LOAD FLAGS((1 << 0) | (1 << 2));
     rodata PT_LOAD FLAGS((1 << 2));
     data   PT_LOAD FLAGS((1 << 1) | (1 << 2));
@@ -13,6 +12,8 @@ PHDRS
 SECTIONS
 {
     . = 0x80000000;
+
+    __kernel_start = .;
 
     .text : {
         *(.text.boot)

@@ -35,6 +35,7 @@ static struct sysitn_boot_info boot_info;
 static struct sysitn_framebuffer framebuffer;
 static struct sysitn_memmap memmap;
 
+__attribute__((section(".text.boot")))
 void _start(void) {
     if (limine_base_revision[2] != 0) {
         __asm__ volatile ("cli; hlt");

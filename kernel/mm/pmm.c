@@ -85,10 +85,9 @@ void pmm_init(const struct sysitn_memmap *memmap, uintptr_t hhdm_offset) {
 
     hint = 0;
 
-    kprintf(KPRINTF_OK " Physical Memory Manager Initialized\n");
+    kprintf(KPRINTF_OK "Physical Memory Manager Initialized\n");
     kprintf(KPRINTF_INFO "PMM Total Pages: %d\n", total_pages);
     kprintf(KPRINTF_INFO "Free pages: %d\n", pmm_count_free_pages());
-    kprintf(KPRINTF_INFO "Bitmap pointer: %p\n", bitmap);
 }
 
 phys_addr_t pmm_alloc_page(void) {
