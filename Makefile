@@ -1,4 +1,5 @@
 ARCH ?= x86_64
+BUILD_TYPE ?= debug
 
 CC := clang
 LD := ld.lld
@@ -38,6 +39,13 @@ ifeq ($(ARCH), loongarch64)
 endif
 
 CFLAGS := -ffreestanding -Wall -Wextra -Wmissing-braces -MMD -MP -fno-stack-protector -fno-stack-check -fno-lto -fno-pic -fno-pie -I$(INCLUDE_DIR) $(ARCH_CFLAGS)
+
+ifeq ($(BUILD_TYPE), debug)
+	CFLAGS += -O0
+else
+	CFLAGS += -Os
+endif
+
 LDFLAGS := $(ARCH_LDFLAGS) -T arch/$(ARCH)/linker.ld -nostdlib -static --no-dynamic-linker -z text -z max-page-size=0x1000
 
 SOURCES_C := $(shell find kernel/ arch/$(ARCH) drivers/ -name '*.c')
